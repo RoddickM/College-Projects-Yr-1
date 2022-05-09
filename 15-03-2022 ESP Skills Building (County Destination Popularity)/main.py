@@ -55,7 +55,7 @@ while True:
     menu_display += "\n[ 5 ] Exit"
     # displays the menu
     print(menu_display)
-    #asks the user what option they wish to choose
+    # asks the user what option they wish to choose
     choose = int_range_validation("Please type the number next to the action you want to take: ", 1, 5)
     print("")
     
@@ -64,7 +64,7 @@ while True:
         print("Destination popularity by county:")
         print(count + "\n")
     elif choose == 2:
-        # adds titles and labels to the bar chart
+        # add titles and labels to the bar chart
         plt.title("Most popular county to be visited")
         plt.xlabel("County")
         plt.ylabel("Number of visits")
@@ -81,7 +81,7 @@ while True:
         plt.xlabel("County")
         plt.ylabel("Number of visits")
     
-        #creates the scatter graph
+        # creates the scatter graph
         plt.scatter(x, y)
         # rotates the labels on the x-axis by 60 degrees
         plt.xticks(rotation=60)
