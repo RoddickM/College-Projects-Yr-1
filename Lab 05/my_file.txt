@@ -1,0 +1,10 @@
+Your name: Roddick Mujib
+Your address: 35 Clayton
+Your college name: The Manchester College
+Your campus name: Nicholls Campus
+Your age: 16
+Your mode of transport: Bus
+Your travel time: 30 mins
+Your travel cost: £5
+Your transport's company name: Stagecoach
+Di you like your current mode of transport?: Yes
