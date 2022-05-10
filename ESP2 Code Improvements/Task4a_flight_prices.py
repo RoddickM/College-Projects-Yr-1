@@ -1,143 +1,153 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import main
 
 
 def comparison():
     """
     This function compares the prices of different airlines to a certain location during a specific period of time
     """
-    # displays main menu and collects user choice of destination
-    def menu():
-        """
-        This functions is the main menu for the options for comparing airline flights
-        :return:
-        """
+    while True:
 
-        flag = True
+        # displays main menu and collects user choice of destination
+        def menu():
+            """
+            This functions is the main menu for the options for comparing airline flights
+            :return:
+            """
 
-        while flag:
-            print("######################################################")
-            print("########         Choose a destination          ########")
-            print("Alicante (ALC)")
-            print("Amsterdam (AMS)")
-            print("Athens (ATH)")
-            print("Budapest (BUD)")
-            print("Cologne (CGN)")
-            print("Dublin (DUB)")
-            print("Munich (MUC)")
-            print("Paris (CDG)")
-            print("Rhodes (RHO)")
-            print("######################################################")
+            flag = True
 
-            # collects and validates user input to ensure choice is in the list
-            # converts the collected code to full name
+            while flag:
+                print("######################################################")
+                print("########         Choose a destination          ########")
+                print("Alicante (ALC)")
+                print("Amsterdam (AMS)")
+                print("Athens (ATH)")
+                print("Budapest (BUD)")
+                print("Cologne (CGN)")
+                print("Dublin (DUB)")
+                print("Munich (MUC)")
+                print("Paris (CDG)")
+                print("Rhodes (RHO)")
+                print("######################################################")
 
-            menu_choice = input("Please enter the three letter destination code: ").upper()
+                # collects and validates user input to ensure choice is in the list
+                # converts the collected code to full name
 
-            code_list = ["ALC",
-                         "AMS",
-                         "ATH",
-                         "BUD",
-                         "CGN",
-                         "DUB",
-                         "MUC",
-                         "CDG",
-                         "RHO"]
-            airport_list = ["Alicante",
-                            "Amsterdam",
-                            "Athens",
-                            "Budapest",
-                            "Cologne",
-                            "Dublin",
-                            "Munich",
-                            "Paris",
-                            "Rhodes"]
+                menu_choice = input("Please enter the three letter destination code: ").upper()
 
-            if menu_choice in code_list:
-                airport_postion = code_list.index(menu_choice)
-                return airport_list[airport_postion]
-            else:
-                print("Sorry, you did not enter a valid three letter code")
-                flag = True
+                code_list = ["ALC",
+                             "AMS",
+                             "ATH",
+                             "BUD",
+                             "CGN",
+                             "DUB",
+                             "MUC",
+                             "CDG",
+                             "RHO"]
+                airport_list = ["Alicante",
+                                "Amsterdam",
+                                "Athens",
+                                "Budapest",
+                                "Cologne",
+                                "Dublin",
+                                "Munich",
+                                "Paris",
+                                "Rhodes"]
 
-    # collects the month that the user wishes to travel and validates input
-    def get_date():
-        """
-        This function gets the date/month of the airline they want to compare
-        :return:
-        """
-        flag = True
+                if menu_choice in code_list:
+                    airport_postion = code_list.index(menu_choice)
+                    return airport_list[airport_postion]
+                else:
+                    print("Sorry, you did not enter a valid three letter code")
+                    flag = True
 
-        while flag:
-            print("######################################################")
-            print("When will you be traveling?")
-            print("Please enter the number of the month you will be travelling (1-12)")
-            print("for example June = 6")
-            print("######################################################")
+        # collects the month that the user wishes to travel and validates input
+        def get_date():
+            """
+            This function gets the date/month of the airline they want to compare
+            :return:
+            """
+            flag = True
 
-            month_list = ["January", "February", "March", "April", "May", "June",
-                          "July", "August", "September", "October", "November", "December"]
+            while flag:
+                print("######################################################")
+                print("When will you be traveling?")
+                print("Please enter the number of the month you will be travelling (1-12)")
+                print("for example June = 6")
+                print("######################################################")
 
-            month_choice = input("Please enter the number of your choice (1-12): ")
+                month_list = ["January", "February", "March", "April", "May", "June",
+                              "July", "August", "September", "October", "November", "December"]
 
-            try:
-                int(month_choice)
-            except:
-                print("Sorry, you did not enter a valid choice")
-                flag = True
-            else:
-                if int(month_choice) < 1 or int(month_choice) > 12:
-                    print("Sorry, you did not neter a valid choice")
+                month_choice = input("Please enter the number of your choice (1-12): ")
+
+                try:
+                    int(month_choice)
+                except:
+                    print("Sorry, you did not enter a valid choice")
                     flag = True
                 else:
-                    travel_date = month_list[int(month_choice)-1]
-                    return travel_date
+                    if int(month_choice) < 1 or int(month_choice) > 12:
+                        print("Sorry, you did not neter a valid choice")
+                        flag = True
+                    else:
+                        travel_date = month_list[int(month_choice)-1]
+                        return travel_date
 
-    destination = menu()
-    month = get_date()
+        destination = menu()
+        month = get_date()
 
-    # gets the main list of data that matches user search criteria and displays it
-    def get_data():
-        """
-        This functions gets the whole data with the specified month and airline but not the commission percentage.
-        :return:
-        """
-        df = pd.read_csv("Task4a_data.csv")
-        extract = df.loc[(df['Month'] == month) & (df['Destination'] == destination), df.columns != "Commission (%)"]
-        print("\nWe have found these flights that match your criteria:")
-        return extract
+        # gets the main list of data that matches user search criteria and displays it
+        def get_data():
+            """
+            This functions gets the whole data with the specified month and airline but not the commission percentage.
+            :return:
+            """
+            df = pd.read_csv("Task4a_data.csv")
+            extract = df.loc[(df['Month'] == month) & (df['Destination'] == destination), df.columns != "Commission (%)"]
+            print("\nWe have found these flights that match your criteria:")
+            return extract
 
-    extracted_data = get_data()
-    extract_no_index = extracted_data.to_string(index=False)
+        extracted_data = get_data()
+        extract_no_index = extracted_data.to_string(index=False)
 
-    # extracts more meaningful data from the results for comparison
-    def compare_data():
-        """
-        This shows the most expensive and cheapest flight of the
-        :return:
-        """
+        # extracts more meaningful data from the results for comparison
+        def compare_data():
+            """
+            This shows the most expensive and cheapest flight of the
+            :return:
+            """
 
-        compare_df = extracted_data[['Airline', 'Price']]
+            compare_df = extracted_data[['Airline', 'Price']]
 
-        column = compare_df['Price']
-        max_price = column.max()
-        min_price = column.min()
+            column = compare_df['Price']
+            max_price = column.max()
+            min_price = column.min()
 
-        most_expensive = compare_df.loc[(extracted_data['Price'] == max_price)]
-        least_expensive = compare_df.loc[(extracted_data['Price'] == min_price)]
+            most_expensive = compare_df.loc[(extracted_data['Price'] == max_price)]
+            least_expensive = compare_df.loc[(extracted_data['Price'] == min_price)]
 
-        average_price = round(compare_df['Price'].mean(), 2)
+            average_price = round(compare_df['Price'].mean(), 2)
 
-        print("###############################################")
-        print("The most expensive flights to {} in {} are: ".format(destination, month))
-        print(most_expensive.to_string(index=False))
+            print("###############################################")
+            print("The most expensive flights to {} in {} are: ".format(destination, month))
+            print(most_expensive.to_string(index=False))
+            print("")
+            print("The least expensive flights to {} in {} are: ".format(destination, month))
+            print(least_expensive.to_string(index=False))
+            print("")
+            print("The average price of a flight to {} in {} is: ".format(destination, month))
+            print(average_price)
+            print("###############################################")
+
+        print(extract_no_index)
+        compare_data()
+
+        continue_operation = input("Do you want to continue?(Y/N)?: ").upper()
         print("")
-        print("The least expensive flights to {} in {} are: ".format(destination, month))
-        print(least_expensive.to_string(index=False))
-        print("")
-        print("The average price of a flight to {} in {} is: ".format(destination, month))
-        print(average_price)
-        print("###############################################")
-
-    print(extract_no_index)
-    compare_data()
+        if continue_operation == "Y":
+            comparison()
+        else:
+            main.main_menu()
