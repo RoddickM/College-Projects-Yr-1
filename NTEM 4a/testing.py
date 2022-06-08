@@ -1,9 +1,9 @@
 import pandas as pd
 import datetime
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("Task_4a_data.csv")
 
-staff_id = int(input("Enter the Employee Id : "))
 s_date = input("Enter Starting Date in dd/mm/yyyy: ")
 day, month, year = s_date.split("/")
 s_date = datetime.date(int(year), int(month), int(day))
@@ -24,20 +24,25 @@ def ind_emp_check(df_r, staff_idd, start_date, end_date):
     end_date = pd.to_datetime(end_date, format='%d/%m/%Y')
     mask = (df_r['ID1'] >= start_date) & (df_r['ID1'] <= end_date)
     df_search = df_r.loc[mask]
-    list(df_search)
-    print(df_search)
+    return df_search
 
 
-'''region = df[["15/01/2021"]].loc[df["Region"] == "London"]
+date_list = ind_emp_check(df, "201111", s_date, e_date)
+date_list = date_list["index"].values.tolist()
+
 list_of_numbers = {}
 
+for i in date_list:
+    region = df[[i]].loc[df["Region"] == "London"]
 
-num = 0
-for i in range(len(region)):
-    num += region.iloc[i]
-    print(int(num))
-list_of_numbers["15/01/2021"] = int(num)
-print(list_of_numbers)'''
+    num = 0
+    for a in range(len(region)):
+        num += region.iloc[a]
+    list_of_numbers[i] = int(num)
 
-ind_emp_check(df, "201111", s_date, e_date)
+names = list(list_of_numbers.keys())
+values = list(list_of_numbers.values())
 
+plt.bar(names, values)
+plt.xticks(rotation=90)
+plt.show()
